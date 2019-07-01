@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:Shrine/colors.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -39,36 +39,43 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             SizedBox(height: 120.0),
-            TextField(
-              controller: _userNameController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: "Username"
+            AccentColorOverride(
+              color: kShrineBrown900,
+              child: TextField(
+                controller: _userNameController,
+                decoration: InputDecoration(labelText: "Username"),
               ),
             ),
             SizedBox(height: 12.0),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: "Password"
+            AccentColorOverride(
+              color: kShrineBrown900,
+              child: TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: "Password"),
+                obscureText: true,
               ),
-              obscureText: true,
             ),
             ButtonBar(
               children: <Widget>[
                 FlatButton(
                   child: Text("Cancel"),
-                  onPressed: (){
+                  onPressed: () {
                     _userNameController.clear();
                     _passwordController.clear();
                   },
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(7.0))
+                  ),
                 ),
                 RaisedButton(
                   child: Text("Next"),
-                  onPressed: (){
+                  elevation: 8.0,
+                  onPressed: () {
                     Navigator.of(context).pop();
                   },
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(7.0))
+                  ),
                 )
               ],
             )
@@ -82,4 +89,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-// TODO: Add AccentColorOverride (103)
+class AccentColorOverride extends StatelessWidget {
+  final Widget child;
+  final Color color;
+  const AccentColorOverride({Key key, this.color, this.child})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+        child: child,
+        data: Theme.of(context)
+            .copyWith(accentColor: color, brightness: Brightness.dark));
+  }
+}
