@@ -25,7 +25,8 @@ class Backdrop extends StatefulWidget {
   _BackdropState createState() => _BackdropState();
 }
 
-class _BackdropState extends State<Backdrop> {
+class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin{
+  GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
   @override
   Widget build(BuildContext context) {
     return Container();
