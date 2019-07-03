@@ -30,7 +30,6 @@ class AsymmetricView extends StatelessWidget {
     /// This will return a list of columns. It will oscillate between the two
     /// kinds of columns. Even cases of the index (0, 2, 4, etc) will be
     /// TwoProductCardColumn and the odd cases will be OneProductCardColumn.
-    ///
     /// Each pair of columns will advance us 3 products forward (2 + 1). That's
     /// some kinda awkward math so we use _evenCasesIndex and _oddCasesIndex as
     /// helpers for creating the index of the product list that will correspond
