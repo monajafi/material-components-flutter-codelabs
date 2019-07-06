@@ -13,11 +13,12 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-
 import 'colors.dart';
 import 'home.dart';
 import 'login.dart';
 import 'supplemental/cut_corners_border.dart';
+import 'model/product.dart';
+import 'backdrop.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class ShrineApp extends StatelessWidget {
@@ -27,7 +28,13 @@ class ShrineApp extends StatelessWidget {
     return MaterialApp(
       title: 'Shrine',
       // TODO: Change home: to a Backdrop with a HomePage frontLayer (104)
-      home: HomePage(),
+      home: Backdrop(
+        currentCategory: Category.all,
+        backLayer: Container(color: kShrinePink100,),
+        frontLayer: HomePage(),
+        backTitle: Text('Category'),
+        frontTitle: Text('SHRINE'),
+      ),
       // TODO: Make currentCategory field take _currentCategory (104)
       // TODO: Pass _currentCategory for frontLayer (104)
       // TODO: Change backLayer field value to CategoryMenuPage (104)

@@ -27,8 +27,45 @@ class Backdrop extends StatefulWidget {
 
 class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin{
   GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
+  Widget _buildStack(){
+    return Stack(
+      key: _backdropKey,
+      children: <Widget>[
+        widget.backLayer,
+        widget.frontLayer
+      ],
+    );
+  }
   @override
   Widget build(BuildContext context) {
-    return Container();
+    var appBar = AppBar(
+        brightness: Brightness.light,
+        elevation: 0.0,
+        titleSpacing: 0.0,
+        leading: Icon(Icons.menu),
+        title: Text('SHRINE'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              semanticLabel: 'search',
+            ),
+            onPressed: () {
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.tune,
+              semanticLabel: 'filter',
+            ),
+            onPressed: () {
+            },
+          ),
+        ],
+      );
+    return Scaffold(
+      appBar: appBar,
+      body: _buildStack(),
+    );
   }
 }
