@@ -55,6 +55,7 @@ class _FrontLayer extends StatelessWidget {
 class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin{
   GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
   AnimationController _controller;
+ 
   @override
   void initState(){
     super.initState();
@@ -75,6 +76,18 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
     _controller.fling(
       velocity: _frontLayerVisible ? -_kFlingVelocity : _kFlingVelocity
     );
+  }
+
+  @override
+  void didUpdateWidget(Backdrop old) {
+    super.didUpdateWidget(old);
+         _controller.fling(velocity: _kFlingVelocity);
+
+    // if(widget.currentCategory != old.currentCategory){
+    //   toggleBackdropLayerVisibility();
+    // }else if(!_frontLayerVisible){
+    //  _controller.fling(velocity: _kFlingVelocity);
+    // }
   }
 
   @override 
@@ -99,7 +112,10 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
           child: widget.backLayer,
           excluding: _frontLayerVisible,
         ),
-        _FrontLayer(child: widget.frontLayer,)
+        PositionedTransition(
+          rect: layerAnimation,
+          child: _FrontLayer(child: widget.frontLayer,) ,
+        )
       ],
     );
   }
@@ -109,7 +125,12 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
         brightness: Brightness.light,
         elevation: 0.0,
         titleSpacing: 0.0,
-        leading: Icon(Icons.menu),
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: (){
+            toggleBackdropLayerVisibility();
+          },
+        ),
         title: Text('SHRINE'),
         actions: <Widget>[
           IconButton(
@@ -132,7 +153,7 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
       );
     return Scaffold(
       appBar: appBar,
-      body: _buildStack(),
+      body: LayoutBuilder(builder: _buildStack,),
     );
   }
 }
