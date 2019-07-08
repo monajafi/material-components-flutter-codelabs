@@ -132,13 +132,12 @@ class _BackdropState extends State<Backdrop>
       brightness: Brightness.light,
       elevation: 0.0,
       titleSpacing: 0.0,
-      leading: IconButton(
-        icon: Icon(Icons.menu),
-        onPressed: () {
-          toggleBackdropLayerVisibility();
-        },
+      title: _BackdropTitle(
+        listenable: _controller.view,
+        onPress: toggleBackdropLayerVisibility,
+        frontTitle: widget.frontTitle,
+        backTitle: widget.backTitle,
       ),
-      title: Text('SHRINE'),
       actions: <Widget>[
         IconButton(
           icon: Icon(
@@ -160,6 +159,86 @@ class _BackdropState extends State<Backdrop>
       appBar: appBar,
       body: LayoutBuilder(
         builder: _buildStack,
+      ),
+    );
+  }
+}
+
+class _BackdropTitle extends AnimatedWidget {
+  final Function onPress;
+  final Widget frontTitle;
+  final Widget backTitle;
+
+  _BackdropTitle(
+      {Key key,
+      Listenable listenable,
+      this.onPress,
+      @required this.frontTitle,
+      @required this.backTitle})
+      : assert(frontTitle != null),
+        assert(backTitle != null),
+        super(listenable: listenable);
+
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = this.listenable;
+
+    return DefaultTextStyle(
+      style: Theme.of(context).primaryTextTheme.title,
+      softWrap: false,
+      overflow: TextOverflow.ellipsis,
+      child: Row(
+        children: <Widget>[
+          SizedBox(
+            width: 70.0,
+            child: IconButton(
+              padding: EdgeInsets.only(right: 8.0),
+              onPressed: onPress,
+              icon: Stack(
+                children: <Widget>[
+                  Opacity(
+                    opacity: animation.value,
+                    child: ImageIcon(AssetImage('assets/slanted_menu.png')),
+                  ),
+                  FractionalTranslation(
+                    translation:
+                        Tween<Offset>(begin: Offset.zero, end: Offset(1.0, 0.0))
+                            .evaluate(animation),
+                    child: ImageIcon(AssetImage('assets/diamond.png')),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Stack(
+            children: <Widget>[
+              Opacity(
+                opacity: CurvedAnimation(
+                        parent: ReverseAnimation(animation),
+                        curve: Interval(0.5, 1))
+                    .value,
+                child: FractionalTranslation(
+                  translation:
+                      Tween<Offset>(begin: Offset.zero, end: Offset(0.5, 0.0))
+                          .evaluate(animation),
+                  child: backTitle,
+                ),
+              ),
+              Opacity(
+                opacity: CurvedAnimation(
+                        parent: animation,
+                        curve: Interval(0.5, 1.0))
+                    .value,
+                child: FractionalTranslation(
+                  translation:
+                      Tween<Offset>(begin: Offset(-0.25, 0.0), end: Offset.zero)
+                          .evaluate(animation),
+                  child: frontTitle,
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
   }
