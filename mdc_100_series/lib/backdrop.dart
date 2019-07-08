@@ -11,7 +11,6 @@ class Backdrop extends StatefulWidget {
   final Widget frontLayer;
   final Widget backTitle;
   final Widget frontTitle;
-
   const Backdrop({
     @required this.currentCategory,
     @required this.backLayer,
