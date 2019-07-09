@@ -2,6 +2,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'model/product.dart';
+import 'login.dart';
 
 const double _kFlingVelocity = 2.0;
 
@@ -141,16 +142,26 @@ class _BackdropState extends State<Backdrop>
         IconButton(
           icon: Icon(
             Icons.search,
-            semanticLabel: 'search',
+            semanticLabel: 'login',
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => LoginPage()));
+          },
         ),
         IconButton(
           icon: Icon(
             Icons.tune,
-            semanticLabel: 'filter',
+            semanticLabel: 'login',
           ),
-          onPressed: () {},
+          onPressed: () {
+             Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => LoginPage()));
+          },
         ),
       ],
     );
@@ -225,8 +236,7 @@ class _BackdropTitle extends AnimatedWidget {
               ),
               Opacity(
                 opacity: CurvedAnimation(
-                        parent: animation,
-                        curve: Interval(0.5, 1.0))
+                        parent: animation, curve: Interval(0.5, 1.0))
                     .value,
                 child: FractionalTranslation(
                   translation:
